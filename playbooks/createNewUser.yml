@@ -1,0 +1,21 @@
+---
+
+- name: Create new user
+  hosts: webservers
+  become: yes
+  become_user: root
+  gather_facts: no
+
+  tasks:
+    - name: Create a new user ansible-worker
+      ansible.builtin.user:
+        state: present
+        name: ansible-worker
+        group: www-data
+        shell: /bin/bash
+
+    - name: Set authorized key
+      ansible.posix.authorized_key:
+        user: ansible-worker
+        key: "{{ lookup('file', './../ssh_keys/id_rsa.pub') }}"
+        state: present

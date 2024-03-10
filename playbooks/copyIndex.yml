@@ -1,0 +1,13 @@
+---
+
+- name: Copy index html
+  hosts: webservers
+  gather_facts: no
+
+  tasks:
+    - name: Copy file index.html
+      ansible.builtin.copy:
+        src: ./../files/index.html
+        dest: /home/ansible-worker/www/stud-template/
+        owner: ansible-worker
+        mode: '644'

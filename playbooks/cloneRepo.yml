@@ -1,0 +1,14 @@
+---
+
+- name: Clone git repository
+  hosts: webservers
+  gather_facts: no
+
+  tasks:
+    - name: Git clone with ssh
+      ansible.builtin.git:
+        repo: git@github.com:iphilka/stud-template.git
+        dest: /home/ansible-worker/www/stud-template/
+        key_file: /home/ansible-worker/.ssh/id_rsa
+        accept_hostkey: true
+        force: true

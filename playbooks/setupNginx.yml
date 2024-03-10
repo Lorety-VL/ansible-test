@@ -1,0 +1,47 @@
+---
+
+- name: Setup nginx
+  hosts: webservers
+  become: yes
+  become_user: root
+  gather_facts: no
+
+  tasks:
+    - name: Install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
+        update_cache: true
+
+    - name: delete default nginx config
+      ansible.builtin.file:
+        path: /etc/nginx/sites-available/default
+        state: absent
+
+
+    - name: delete default symbolic link
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: copy new nginx config
+      ansible.builtin.copy:
+        src: ./../files/ansible.iphilka.ru.conf
+        dest: /etc/nginx/sites-available
+        owner: root
+        mode: '644'
+      notify:
+        - restart nginx
+
+    - name: Create new symbolic link
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/ansible.iphilka.ru.conf
+        dest: /etc/nginx/sites-enabled/ansible.iphilka.ru.conf
+        state: link
+        force: true
+
+  handlers:
+    - name: restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded

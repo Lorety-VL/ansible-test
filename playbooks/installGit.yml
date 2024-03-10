@@ -1,0 +1,27 @@
+---
+
+- name: Install git and copy keys
+  hosts: webservers
+  become: yes
+  become_user: root
+  gather_facts: no
+
+  tasks:
+    - name: Install git
+      ansible.builtin.apt:
+        name: git
+        state: present
+
+    - name: Copy id_rsa private key
+      ansible.builtin.copy:
+        src: ./../ssh_keys/id_rsa
+        dest: /home/ansible-worker/.ssh/id_rsa
+        owner: ansible-worker
+        mode: '700'
+
+    - name: Copy id_rsa publick key
+      ansible.builtin.copy:
+        src: ./../ssh_keys/id_rsa.pub
+        dest: /home/ansible-worker/.ssh/id_rsa.pub
+        owner: ansible-worker
+        mode: '700'
