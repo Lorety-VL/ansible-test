@@ -11,6 +11,7 @@
       ansible.builtin.apt:
         name: git
         state: present
+        update_cache: true
 
     - name: Copy id_rsa private key
       ansible.builtin.copy:
