@@ -1,7 +1,7 @@
 ---
 
 - name: Install git and copy keys
-  hosts: webservers
+  hosts: all
   become: yes
   become_user: root
   gather_facts: no

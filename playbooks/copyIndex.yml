@@ -1,7 +1,7 @@
 ---
 
 - name: Copy index html
-  hosts: webservers
+  hosts: all
   gather_facts: no
 
   tasks:

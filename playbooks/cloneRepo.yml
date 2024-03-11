@@ -1,7 +1,7 @@
 ---
 
 - name: Clone git repository
-  hosts: webservers
+  hosts: all
   gather_facts: no
 
   tasks:
